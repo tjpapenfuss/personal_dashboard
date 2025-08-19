@@ -1,3 +1,9 @@
+-- ==========================
+-- Database Initialization Script
+-- ==========================
+
+-- Enable UUID extension
+CREATE EXTENSION IF NOT EXISTS "pgcrypto";
 
 -- ==========================
 -- Users Table
@@ -147,3 +153,23 @@ CREATE TABLE websites (
 -- CREATE UNIQUE INDEX one_primary_website_per_user
 -- ON websites(user_id)
 -- WHERE is_primary = TRUE;
+
+-- ==========================
+-- Indexes for Performance
+-- ==========================
+CREATE INDEX idx_education_user_id ON education(user_id);
+CREATE INDEX idx_job_experience_user_id ON job_experience(user_id);
+CREATE INDEX idx_skills_user_id ON skills(user_id);
+CREATE INDEX idx_skills_category ON skills(category);
+CREATE INDEX idx_experiences_user_id ON experiences(user_id);
+CREATE INDEX idx_certifications_user_id ON certifications(user_id);
+CREATE INDEX idx_summaries_user_id ON summaries(user_id);
+CREATE INDEX idx_websites_user_id ON websites(user_id);
+
+-- ==========================
+-- Sample Data (Optional)
+-- ==========================
+-- INSERT INTO users (email, full_name, password_hash) 
+-- VALUES ('test@example.com', 'Test User', '$2b$12$LQv3c1yqBWVHxkd0LHAkCOYz6TtxMQJqhN8/LeANEKEfPP3gGpgOe');
+
+COMMIT;

@@ -1,0 +1,61 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:15
+    container_name: resume-postgres-db
+    environment:
+      POSTGRES_DB: resume_db
+      POSTGRES_USER: resume_user
+      POSTGRES_PASSWORD: secure_password_123
+      # Optional: set timezone
+      TZ: America/Los_Angeles
+    ports:
+      - "5432:5432"
+    volumes:
+      # Persistent data storage
+      - postgres_data:/var/lib/postgresql/data
+      # Initialize with your schema
+      - ./init-schema.sql:/docker-entrypoint-initdb.d/01-schema.sql
+      # Optional: custom PostgreSQL configuration
+      # - ./postgresql.conf:/etc/postgresql/postgresql.conf
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U resume_user -d resume_db"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
+    # Resource limits for production
+    deploy:
+      resources:
+        limits:
+          memory: 1G
+          cpus: '0.5'
+        reservations:
+          memory: 512M
+
+  # Optional: pgAdmin for database management
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    container_name: resume-pgadmin
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@example.com
+      PGADMIN_DEFAULT_PASSWORD: admin_password
+    ports:
+      - "8080:80"
+    volumes:
+      - pgadmin_data:/var/lib/pgadmin
+    depends_on:
+      - postgres
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
+    driver: local
+  pgadmin_data:
+    driver: local
+
+networks:
+  default:
+    name: resume_network
