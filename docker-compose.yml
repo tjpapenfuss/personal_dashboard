@@ -1,3 +1,6 @@
+# Install docker -- sudo apt-get install docker.io -y
+# start -- sudo systemctl start docker
+
 version: '3.8'
 
 services:
