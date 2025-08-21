@@ -3,3 +3,4 @@ strawberry-graphql[fastapi]
 sqlalchemy 
 asyncpg 
 uvicorn
+python-dotenv
