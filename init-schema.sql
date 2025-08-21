@@ -1,5 +1,29 @@
 -- ==========================
--- Database Initialization Script
+-- Database Drop 
+-- ==========================
+-- This section drops all tables in the correct order to handle foreign key dependencies
+
+-- Drop junction tables first (they reference other tables)
+DROP TABLE IF EXISTS experience_skills CASCADE;
+DROP TABLE IF EXISTS certification_skills CASCADE;
+
+-- Drop tables that reference users table
+DROP TABLE IF EXISTS websites CASCADE;
+DROP TABLE IF EXISTS summaries CASCADE;
+DROP TABLE IF EXISTS certifications CASCADE;
+DROP TABLE IF EXISTS experiences CASCADE;
+DROP TABLE IF EXISTS skills CASCADE;
+DROP TABLE IF EXISTS job_experience CASCADE;
+DROP TABLE IF EXISTS education CASCADE;
+
+-- Drop users table last (referenced by other tables)
+DROP TABLE IF EXISTS users CASCADE;
+
+-- Optional: Drop the extension if no longer needed
+-- DROP EXTENSION IF EXISTS "pgcrypto";
+
+-- ==========================
+-- Database Initialization 
 -- ==========================
 
 -- Enable UUID extension
